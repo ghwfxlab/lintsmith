@@ -1,6 +1,6 @@
 # Managed by ghwm (super-linter-lean@1.0.0)
 # Source: @ghwfxlab/super-linter-lean:super-linter-lean.yaml
-# Hash: sha256:90cdaac02f1357bcaef60a463d8a72f5a0fa42ca49dd1965b1160db4a4231073
+# Hash: sha256:ac511f1a33d305ce4b34f9e3f63aa723dc6142dfce718da08014ea1270cf0cc9
 # Re-run `ghwm install` to refresh this file.
 
 ---
@@ -68,7 +68,7 @@ jobs:
           env-files: ${{ env.SUPER_LINTER_CONFIG_PATH }}
 
       - name: Scan the image (report)
-        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           image-ref: ${{ steps.lean.outputs.image }}
           severity: HIGH,CRITICAL
@@ -88,7 +88,7 @@ jobs:
           } >> "${GITHUB_STEP_SUMMARY}"
 
       - name: Scan the image (gate)
-        uses: aquasecurity/trivy-action@a9c7b0f06e461e9d4b4d1711f154ee024b8d7ab8 # v0.36.0
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
         with:
           image-ref: ${{ steps.lean.outputs.image }}
           severity: ${{ env.TRIVY_BLOCKING_SEVERITY }}
