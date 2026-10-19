@@ -540,6 +540,20 @@ class TestSubprocessWrappers:
         ).stdout.strip()
         assert remote.startswith("https://")
 
+    def test_init_repository_should_commit_every_file_when_a_fixture_ignores_all_files(self, tmp_path: Path) -> None:
+        write(tmp_path / ".gitignore", "*\n!.gitignore\n")
+        write(tmp_path / "a.sh")
+
+        smoke.init_repository(tmp_path)
+
+        tracked = subprocess.run(
+            [shutil.which("git") or "git", "-C", str(tmp_path), "ls-files"],
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout.split()
+        assert "a.sh" in tracked
+
     def test_init_repository_should_create_a_git_repository_when_git_is_available(self, tmp_path: Path) -> None:
         write(tmp_path / "a.yml")
 

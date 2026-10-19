@@ -26,7 +26,8 @@ caveats are in [docs/benchmarks](docs/benchmarks/README.md).
 3. A PR check fails when a change adds file types the current image does not
    cover.
 4. A scheduled job rebuilds when upstream publishes a new release.
-5. The workflows are distributed through the ghwm registry.
+5. The workflows are distributed through the ghwm registry; see
+   [Run the lean image with the ghwm registry workflows](docs/using-with-ghwm.md).
 
 ## Install
 

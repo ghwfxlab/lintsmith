@@ -88,6 +88,10 @@ files (`.github/super-linter.env`, `.github/linters/`, `.github/auto_assign.yaml
 once and leaves them alone afterwards. The remaining workflows are specific to this
 repository.
 
+The registry also has a `super-linter-lean` workflow that builds, scans and publishes
+the lean image, and `super-linter` 2.0.0 can run it through `SUPER_LINTER_CUSTOM_IMAGE`.
+See [using-with-ghwm.md](using-with-ghwm.md).
+
 ## Design principles
 
 - Nothing that follows upstream runs unless upstream has a newer release.
