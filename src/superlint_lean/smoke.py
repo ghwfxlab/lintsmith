@@ -138,11 +138,15 @@ def docker_command(image: str, repo: Path, flags: Sequence[str]) -> list[str]:
 
 
 def init_repository(repo: Path) -> None:
-    """Super-Linter lints a git repository; commit the copied fixtures."""
+    """Super-Linter lints a git repository; commit the copied fixtures.
+
+    Add them with -f: the commitlint fixtures bring a .gitignore that ignores everything, which
+    would hide every other fixture once they share a repository.
+    """
     for args in (
         ["init", "-q", "-b", "main"],
         ["remote", "add", "origin", "https://github.com/example/fixtures.git"],
-        ["add", "-A"],
+        ["add", "-A", "-f"],
         ["-c", "user.email=smoke@example.com", "-c", "user.name=smoke", "commit", "-qm", "fixtures"],
     ):
         subprocess.run(["git", "-C", str(repo), *args], check=True, capture_output=True)
