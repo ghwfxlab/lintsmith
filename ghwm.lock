@@ -50,7 +50,7 @@
       "files": [
         {
           "target": ".github/workflows/super-linter-lean.yaml",
-          "source_hash": "sha256:ac511f1a33d305ce4b34f9e3f63aa723dc6142dfce718da08014ea1270cf0cc9"
+          "source_hash": "sha256:2dcfc0552ca73e685f8a69352a67be56fe537e6cd63973e295f52d4f1d1d6fa7"
         }
       ],
       "version": "1.0.0"
