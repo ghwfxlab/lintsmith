@@ -62,7 +62,7 @@ jobs:
 
       - name: Build the image and smoke-test it
         id: lean
-        uses: ghwfxlab/superlint-lean@a70a3f84cc3d92be8364fda5e5d4666d8c19080b # v0.0.13
+        uses: ghwfxlab/superlint-lean@7f2462ea4f954a964791953de8e7a5f1e0ac60a0 # smoke fix (unreleased)
         with:
           upstream-tag: ${{ steps.version.outputs.version }}
           env-files: ${{ env.SUPER_LINTER_CONFIG_PATH }}
