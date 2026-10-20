@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import shutil
 import subprocess
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -350,6 +351,27 @@ class TestSmokeJobs:
 
         rows = [line.split(" | ")[0] for line in lines[2:4]]
         assert rows == ["| JSON", "| YAML"]
+
+
+class TestWorkDirectory:
+    def test_work_directory_should_be_created_in_runner_temp_when_runner_temp_is_set(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.setenv("RUNNER_TEMP", str(tmp_path))
+
+        work = smoke.work_directory()
+
+        assert work.parent == tmp_path
+
+    def test_work_directory_should_be_created_in_the_system_temp_when_runner_temp_is_not_set(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        monkeypatch.delenv("RUNNER_TEMP", raising=False)
+        monkeypatch.setattr(tempfile, "tempdir", str(tmp_path))
+
+        work = smoke.work_directory()
+
+        assert work.parent == tmp_path
 
 
 class TestMain:

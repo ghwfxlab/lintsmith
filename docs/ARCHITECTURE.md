@@ -107,6 +107,9 @@ they are read, not copied). The verdict comes from the Super-Linter summary, so 
 does not count as a pass. Flags without a fixture are reported, not failed. Upstream's own `TEST_CASE_RUN`
 mode cannot be used because it refuses to run unless every validation is enabled.
 
+The fixtures are copied to a work directory that the containers mount. It lives under `RUNNER_TEMP` when that is set
+(GitHub Actions), because the Docker daemon of a self-hosted runner does not always see `/tmp`.
+
 It then runs the image once with every flag of the plan enabled, on the bad fixtures of the mapped linters that
 are not in the plan, and checks that none of them appears in the summary (disabled linters are skipped).
 

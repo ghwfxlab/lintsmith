@@ -28,6 +28,7 @@ not, 2 a bad argument.
 
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -258,6 +259,14 @@ def check_flag(image: str, flag: str, upstream: Path, work: Path) -> tuple[str, 
     return row, failed
 
 
+def work_directory() -> Path:
+    """A new directory the Docker daemon can mount.
+
+    On GitHub Actions it is under RUNNER_TEMP: the daemon of a self-hosted runner does not always see /tmp.
+    """
+    return Path(tempfile.mkdtemp(dir=os.environ.get("RUNNER_TEMP") or None))
+
+
 def smoke(
     image: str, flags: Sequence[str], upstream: Path, mapped: Sequence[str] = (), jobs: int = 1
 ) -> tuple[list[str], bool]:
@@ -266,7 +275,7 @@ def smoke(
     Up to `jobs` flags are tested at the same time; the rows keep the order of `flags`.
     """
     lines = ["| Flag | Good file | Bad file |", "| --- | --- | --- |"]
-    work = Path(tempfile.mkdtemp())
+    work = work_directory()
     try:
         with ThreadPoolExecutor(max_workers=jobs) as pool:
             checked = list(pool.map(lambda flag: check_flag(image, flag, upstream, work), flags))
