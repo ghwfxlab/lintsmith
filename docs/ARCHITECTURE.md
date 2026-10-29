@@ -2,7 +2,7 @@
 
 ## Overview
 
-`superlint-lean` generates lean Super-Linter images and guards the pull requests
+`lintsmith` generates lean Super-Linter images and guards the pull requests
 that would outgrow them. Every command starts from the same input: the
 `VALIDATE_*` flags of a repository, resolved with upstream's semantics.
 
@@ -100,7 +100,7 @@ See [using-with-ghwm.md](using-with-ghwm.md).
 
 ## Smoke test
 
-`superlint-lean smoke <image> <plan.json> <upstream-dir>` checks that a built image still lints. For every flag in
+`lintsmith smoke <image> <plan.json> <upstream-dir>` checks that a built image still lints. For every flag in
 `plan.json` it runs the image with only that linter enabled, once on the good files and once on the bad files
 of Super-Linter's `test/linters/<flag>` fixtures, taken from a checkout at the pinned tag (MIT licensed, so
 they are read, not copied). The verdict comes from the Super-Linter summary, so a linter that found no files

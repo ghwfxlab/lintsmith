@@ -1,6 +1,6 @@
 # Verifying a pulled image
 
-The image that `self-image.yaml` publishes (`ghcr.io/ghwfxlab/superlint-lean/super-linter-lean`) carries two proofs
+The image that `self-image.yaml` publishes (`ghcr.io/ghwfxlab/lintsmith/super-linter-lean`) carries two proofs
 of where it came from. Both are stored next to the image in GHCR, so they cost nothing when you pull it.
 
 | Proof | What it says | Made by |
@@ -12,7 +12,7 @@ Verify the digest you run, not a moving tag. `latest` and `<upstream tag>` move 
 `<upstream tag>-<short sha>` tag is immutable. Resolve a tag to a digest first:
 
 ```sh
-image=ghcr.io/ghwfxlab/superlint-lean/super-linter-lean
+image=ghcr.io/ghwfxlab/lintsmith/super-linter-lean
 digest="$(docker buildx imagetools inspect "$image:latest" --format '{{.Manifest.Digest}}')"
 ```
 
@@ -20,7 +20,7 @@ digest="$(docker buildx imagetools inspect "$image:latest" --format '{{.Manifest
 
 ```sh
 cosign verify \
-  --certificate-identity "https://github.com/ghwfxlab/superlint-lean/.github/workflows/self-image.yaml@refs/heads/main" \
+  --certificate-identity "https://github.com/ghwfxlab/lintsmith/.github/workflows/self-image.yaml@refs/heads/main" \
   --certificate-oidc-issuer https://token.actions.githubusercontent.com \
   "$image@$digest"
 ```
@@ -31,7 +31,7 @@ the identity; only that workflow can obtain a certificate for it.
 ## Build provenance
 
 ```sh
-gh attestation verify "oci://$image@$digest" --repo ghwfxlab/superlint-lean
+gh attestation verify "oci://$image@$digest" --repo ghwfxlab/lintsmith
 ```
 
 The output names the workflow, the commit and the run that built the image.

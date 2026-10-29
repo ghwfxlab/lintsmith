@@ -1,4 +1,4 @@
-"""Tests for superlint_lean.repository_settings."""
+"""Tests for lintsmith.repository_settings."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from typing import Any
 
 import pytest
 
-from superlint_lean import cli, repository_settings
+from lintsmith import cli, repository_settings
 
 REPOSITORY = "owner/repo"
 

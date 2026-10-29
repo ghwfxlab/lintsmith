@@ -1,7 +1,7 @@
 ---
 name: Upstream sync
 
-# Keeps src/superlint_lean/data/linters.json in step with upstream Super-Linter.
+# Keeps src/lintsmith/data/linters.json in step with upstream Super-Linter.
 #
 # Nothing here does work on upstream's behalf unless upstream has a newer
 # release than the one pinned in upstream-version.txt:
@@ -99,11 +99,11 @@ jobs:
           PINNED: ${{ steps.pin.outputs.pinned }}
         run: |
           set +e
-          uv run superlint-lean sync-mapping --upstream upstream --report coverage.md
+          uv run lintsmith sync-mapping --upstream upstream --report coverage.md
           rc=$?
           cat coverage.md >> "$GITHUB_STEP_SUMMARY"
           if [ "$rc" -ne 0 ]; then
-            echo "::error::src/superlint_lean/data/linters.json does not match upstream ${PINNED}. See the job summary."
+            echo "::error::src/lintsmith/data/linters.json does not match upstream ${PINNED}. See the job summary."
             exit 1
           fi
 
@@ -133,7 +133,7 @@ jobs:
           COOLDOWN_DAYS: ${{ inputs.cooldown_days || vars.UPSTREAM_COOLDOWN_DAYS || '0' }}
         run: |
           status=0
-          uv run --no-dev superlint-lean select-upstream --pinned-file upstream-version.txt \
+          uv run --no-dev lintsmith select-upstream --pinned-file upstream-version.txt \
             --force-tag "$FORCE_TAG" --cooldown-days "$COOLDOWN_DAYS" > select.log || status=$?
           tee -a "$GITHUB_STEP_SUMMARY" < select.log
           exit "$status"
@@ -173,7 +173,7 @@ jobs:
       - name: Add missing linters to the mapping
         run: |
           set +e
-          uv run superlint-lean sync-mapping --upstream upstream --write --report sync-report.md
+          uv run lintsmith sync-mapping --upstream upstream --write --report sync-report.md
           cat sync-report.md >> "$GITHUB_STEP_SUMMARY"
           exit 0
 
@@ -181,7 +181,7 @@ jobs:
         continue-on-error: true
         run: |
           docker system prune -af >/dev/null 2>&1 || true
-          uv run superlint-lean generate --all --upstream-tag "$TAG" \
+          uv run lintsmith generate --all --upstream-tag "$TAG" \
             --upstream-dockerfile upstream/Dockerfile --out build-all
           docker buildx build build-all --provenance=false --sbom=false --load -t lean-all:check
           docker run --rm -v "$PWD/build-all/checks.sh:/checks.sh:ro" --entrypoint bash \
@@ -192,7 +192,7 @@ jobs:
         timeout-minutes: 120
         run: |
           status=0
-          uv run superlint-lean smoke lean-all:check build-all/plan.json upstream --jobs 4 > smoke-all.md || status=$?
+          uv run lintsmith smoke lean-all:check build-all/plan.json upstream --jobs 4 > smoke-all.md || status=$?
           {
             echo "### Smoke test: every mapped linter on upstream's good and bad fixtures"
             echo
@@ -209,7 +209,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -q -B "$branch"
-          git add upstream-version.txt src/superlint_lean/data/linters.json
+          git add upstream-version.txt src/lintsmith/data/linters.json
           git commit -q -m "chore: sync mapping with upstream ${TAG}"
           # the checkout keeps no credentials; give git the token for this push only
           auth="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"

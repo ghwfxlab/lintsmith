@@ -1,4 +1,4 @@
-"""Tests for superlint_lean.smoke."""
+"""Tests for lintsmith.smoke."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from superlint_lean import smoke
+from lintsmith import smoke
 
 TEST_IMAGE = "img:1"
 TEST_FLAG = "YAML"

@@ -1,4 +1,4 @@
-"""Tests for superlint_lean.release_notes."""
+"""Tests for lintsmith.release_notes."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ from typing import Any
 
 import pytest
 
-from superlint_lean import release_notes
+from lintsmith import release_notes
 from tests.shared import bench_row, write_jsonl
 
 TEST_OLD_TAG = "v1"

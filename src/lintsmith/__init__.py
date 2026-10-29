@@ -3,6 +3,6 @@
 from importlib.metadata import PackageNotFoundError, version
 
 try:
-    __version__ = version("superlint-lean")
+    __version__ = version("lintsmith")
 except PackageNotFoundError:  # pragma: no cover - running from a source tree without metadata
     __version__ = "0.0.0"

@@ -1,4 +1,4 @@
-"""Tests for superlint_lean.mapping_sync."""
+"""Tests for lintsmith.mapping_sync."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from typing import Any
 
 import pytest
 
-from superlint_lean import mapping_sync
+from lintsmith import mapping_sync
 
 LANGUAGES_SH = """\
 LANGUAGE_ARRAY=(

@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = ROOT / "src" / "superlint_lean" / "data"
+DATA_DIR = ROOT / "src" / "lintsmith" / "data"
 WORKFLOW_FIXTURE = ROOT / "tests" / "fixtures" / "ghwm-workflow.yml"
 
 UPSTREAM_TAG = "v9.0.0"

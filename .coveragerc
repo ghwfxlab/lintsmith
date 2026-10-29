@@ -1,7 +1,7 @@
 [run]
 branch = True
 source =
-    superlint_lean
+    lintsmith
 omit =
     */tests/*
     */__pycache__/*

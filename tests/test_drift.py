@@ -1,4 +1,4 @@
-"""Tests for superlint_lean.drift."""
+"""Tests for lintsmith.drift."""
 
 from __future__ import annotations
 
@@ -8,8 +8,8 @@ from typing import Any
 
 import pytest
 
-from superlint_lean import config as slconfig
-from superlint_lean import drift
+from lintsmith import config as slconfig
+from lintsmith import drift
 from tests.shared import ENV_JSON, ENV_TRUE, ENV_YAML, WORKFLOW_FIXTURE
 
 TEST_UNCOVERED_FILE = "src/main.rs"

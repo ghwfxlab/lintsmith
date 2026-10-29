@@ -1,4 +1,4 @@
-"""Tests for superlint_lean.config."""
+"""Tests for lintsmith.config."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from superlint_lean import config as slconfig
+from lintsmith import config as slconfig
 from tests.shared import ENV_FALSE, ENV_JSON, ENV_TRUE, ENV_YAML, FLAG_JSON, FLAG_YAML, WORKFLOW_FIXTURE
 
 TEST_ALL_CODEBASE = "VALIDATE_ALL_CODEBASE"

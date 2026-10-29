@@ -146,7 +146,7 @@ jobs:
         run: |
           args=()
           if [ "$ENVS" = "ALL" ]; then args=(--all); else for e in $ENVS; do args+=(--env "$e"); done; fi
-          uv run superlint-lean generate "${args[@]}" \
+          uv run lintsmith generate "${args[@]}" \
             --upstream-tag "$TAG" --upstream-dockerfile upstream/Dockerfile --out build
           {
             echo "BASELINE_IMAGE=$(jq -r .baseline_image build/plan.json)"
@@ -176,8 +176,8 @@ jobs:
               --provenance=false --sbom=false \
               --metadata-file "${RUNNER_TEMP}/metadata-${c}.json" \
               --label "org.opencontainers.image.source=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" \
-              --label "io.superlint-lean.upstream-tag=${TAG}" \
-              --label "io.superlint-lean.profile=${PROFILE}" \
+              --label "io.lintsmith.upstream-tag=${TAG}" \
+              --label "io.lintsmith.profile=${PROFILE}" \
               --output "type=image,name=${LEAN_BASE}:${TAG}-${c},push=true,oci-mediatypes=true,compression=${c},force-compression=true"
             t1=$(date +%s.%N)
             jq -nc --arg v "${PROFILE}/lean-${c}" --argjson s "$(awk -v a="$t0" -v b="$t1" 'BEGIN{printf "%.1f", b-a}')" \
@@ -217,7 +217,7 @@ jobs:
       - name: Smoke-test the lean image
         run: |
           status=0
-          uv run --no-dev superlint-lean smoke "${LEAN_BASE}:${TAG}-gzip" build/plan.json upstream --jobs 4 > "smoke-${PROFILE}.md" || status=$?
+          uv run --no-dev lintsmith smoke "${LEAN_BASE}:${TAG}-gzip" build/plan.json upstream --jobs 4 > "smoke-${PROFILE}.md" || status=$?
           {
             echo "### Smoke test: ${PROFILE}"
             echo
@@ -233,7 +233,7 @@ jobs:
           out="bench-${PROFILE}.jsonl"
           rm -f "$out"
           measure() { # image kind mode
-            uv run --no-dev superlint-lean bench "$1" "$RUNS" "${PROFILE}/$2" "$RUNNER_ENVIRONMENT" \
+            uv run --no-dev lintsmith bench "$1" "$RUNS" "${PROFILE}/$2" "$RUNNER_ENVIRONMENT" \
               --mode "$3" --out "$out" || echo "::warning::benchmark failed: $2 ($3)"
           }
           for mode in cold warm; do
@@ -290,7 +290,7 @@ jobs:
         with:
           enable-cache: false
       # The branch switch below removes the checkout, so install the tool rather than run it from here
-      - name: Install superlint-lean
+      - name: Install lintsmith
         run: |
           uv tool install --quiet .
           uv tool dir --bin >> "$GITHUB_PATH"
@@ -299,7 +299,7 @@ jobs:
           {
             echo "## Lean vs upstream baseline (upstream ${UPSTREAM_TAG})"
             echo
-            superlint-lean compare bench-*.jsonl build-*.jsonl
+            lintsmith compare bench-*.jsonl build-*.jsonl
           } | tee results.md >> "$GITHUB_STEP_SUMMARY"
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
@@ -332,7 +332,7 @@ jobs:
           cp "$RUNNER_TEMP"/out/* "$bytag/"
           rm -f "$bytag/results.md"
           { echo "## Lean vs upstream baseline (upstream ${UPSTREAM_TAG})"; echo
-            superlint-lean compare "$bytag"/bench-*.jsonl "$bytag"/build-*.jsonl 2>/dev/null; } > "$bytag/results.md" || true
+            lintsmith compare "$bytag"/bench-*.jsonl "$bytag"/build-*.jsonl 2>/dev/null; } > "$bytag/results.md" || true
           git add results
           git commit -q -m "Benchmark results: run ${GITHUB_RUN_ID} (upstream ${UPSTREAM_TAG})"
           # the checkout keeps no credentials; give git the token for this push only

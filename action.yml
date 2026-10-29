@@ -19,7 +19,7 @@ inputs:
   image:
     description: Local name of the built image
     required: false
-    default: superlint-lean:candidate
+    default: lintsmith:candidate
   revision:
     description: Commit the image is built for (becomes BUILD_REVISION)
     required: false
@@ -54,7 +54,7 @@ runs:
       env:
         UPSTREAM_TAG: ${{ inputs.upstream-tag }}
       run: |
-        upstream="${RUNNER_TEMP}/superlint-lean-upstream"
+        upstream="${RUNNER_TEMP}/lintsmith-upstream"
         rm -rf "${upstream}"
         git clone --quiet --depth 1 --branch "${UPSTREAM_TAG}" --filter=blob:none --sparse \
           https://github.com/super-linter/super-linter "${upstream}"
@@ -71,12 +71,12 @@ runs:
         # the action is unpacked without .git, so hatch-vcs cannot read a version from tags
         SETUPTOOLS_SCM_PRETEND_VERSION: 0.0.0
       run: |
-        context="${RUNNER_TEMP}/superlint-lean-build"
+        context="${RUNNER_TEMP}/lintsmith-build"
         args=()
         while IFS= read -r file; do
           if [ -n "${file}" ]; then args+=(--env "${file}"); fi
         done <<< "${ENV_FILES}"
-        uv run --project "${GITHUB_ACTION_PATH}" superlint-lean generate "${args[@]}" \
+        uv run --project "${GITHUB_ACTION_PATH}" lintsmith generate "${args[@]}" \
           --upstream-tag "${UPSTREAM_TAG}" \
           --upstream-dockerfile "${UPSTREAM}/Dockerfile" \
           --out "${context}"
@@ -95,7 +95,7 @@ runs:
           --build-arg "BUILD_REVISION=${REVISION}" \
           --build-arg "BUILD_DATE=$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
           --label "org.opencontainers.image.source=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}" \
-          --label "io.superlint-lean.upstream-tag=${UPSTREAM_TAG}" \
+          --label "io.lintsmith.upstream-tag=${UPSTREAM_TAG}" \
           --tag "${IMAGE}"
 
     - name: Smoke-test the image
@@ -108,7 +108,7 @@ runs:
         SETUPTOOLS_SCM_PRETEND_VERSION: 0.0.0
       run: |
         status=0
-        uv run --project "${GITHUB_ACTION_PATH}" superlint-lean smoke \
+        uv run --project "${GITHUB_ACTION_PATH}" lintsmith smoke \
           "${IMAGE}" "${CONTEXT}/plan.json" "${UPSTREAM}" --jobs 4 > "${RUNNER_TEMP}/smoke.md" || status=$?
         cat "${RUNNER_TEMP}/smoke.md"
         { echo "### Smoke test"; echo; cat "${RUNNER_TEMP}/smoke.md"; } >> "${GITHUB_STEP_SUMMARY}"

@@ -1,4 +1,4 @@
-"""Tests for superlint_lean.generate."""
+"""Tests for lintsmith.generate."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from typing import Any
 
 import pytest
 
-from superlint_lean import generate
+from lintsmith import generate
 from tests.shared import (
     ENV_JSON,
     ENV_TRUE,

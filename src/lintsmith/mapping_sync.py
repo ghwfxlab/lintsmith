@@ -2,7 +2,7 @@
 draft entries for linters the mapping does not know yet.
 
 Usage:
-    superlint-lean sync-mapping --upstream path/to/super-linter [--write] [--report report.md]
+    lintsmith sync-mapping --upstream path/to/super-linter [--write] [--report report.md]
 
 Reads from the upstream checkout:
     lib/globals/languages.sh        every VALIDATE_* flag (LANGUAGE_ARRAY)

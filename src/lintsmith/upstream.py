@@ -1,7 +1,7 @@
 """Pick the upstream Super-Linter release to sync to.
 
 Usage:
-    superlint-lean select-upstream --pinned-file upstream-version.txt
+    lintsmith select-upstream --pinned-file upstream-version.txt
         [--force-tag TAG] [--cooldown-days N] [--repo super-linter/super-linter]
 
 Reads the releases of the upstream repository with the ``gh`` CLI. The target is the
