@@ -4,9 +4,6 @@ Generate lean, pinned [Super-Linter](https://github.com/super-linter/super-linte
 images that contain only the linters a repository uses, to cut the cold
 pull-and-unpack time in CI.
 
-Formerly `superlint-lean`. The old PyPI package and repository URL keep working, but
-new releases are published as `lintsmith`.
-
 Status: working, early. On GitHub-hosted runners a lean image pulls 5x to 8x
 faster than upstream `slim`:
 
