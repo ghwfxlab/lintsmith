@@ -1,10 +1,10 @@
 """Smoke-test a built image against Super-Linter's own good and bad fixtures.
 
 Usage:
-    superlint-lean smoke <image> <plan.json> <upstream-dir> [--mapping linters.json] [--jobs N]
+    lintsmith smoke <image> <plan.json> <upstream-dir> [--mapping linters.json] [--jobs N]
 
     plan.json
-        written by ``superlint-lean generate`` (its "flags" list)
+        written by ``lintsmith generate`` (its "flags" list)
     upstream-dir
         a Super-Linter checkout at the tag the image was built from; only
         ``test/linters`` and ``.editorconfig`` are read (MIT licensed, never
@@ -292,7 +292,7 @@ def smoke(
 def main(argv: Sequence[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("image", help="the image to test")
-    ap.add_argument("plan", help="plan.json written by `superlint-lean generate`")
+    ap.add_argument("plan", help="plan.json written by `lintsmith generate`")
     ap.add_argument("upstream", help="a Super-Linter checkout at the tag the image was built from")
     ap.add_argument(
         "--mapping", default=str(MAPPING), help="linters.json; its flags that are not in the plan must be skipped"

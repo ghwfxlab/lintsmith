@@ -1,7 +1,7 @@
 ---
-name: superlint-lean
+name: lintsmith
 version: 1.0.0
-description: Agent skills for developing superlint-lean
+description: Agent skills for developing lintsmith
 author: Peter M E Frandsen
 # Which agent platforms to deploy to.
 # Resolution order: --target flag > this field > auto-detect from filesystem.

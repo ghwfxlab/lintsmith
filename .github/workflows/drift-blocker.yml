@@ -11,7 +11,7 @@ name: Lean image drift blocker
 #     drift:
 #       permissions:
 #         contents: read
-#       uses: ghwfxlab/superlint-lean/.github/workflows/drift-blocker.yml@main
+#       uses: ghwfxlab/lintsmith/.github/workflows/drift-blocker.yml@main
 #       with:
 #         workflow: .github/workflows/linter.yml
 #
@@ -34,7 +34,7 @@ on:
         type: boolean
         default: false
       tool_ref:
-        description: Ref of superlint-lean to use
+        description: Ref of lintsmith to use
         type: string
         default: main
       runner:
@@ -59,7 +59,7 @@ jobs:
       - name: Check out the tool
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          repository: ghwfxlab/superlint-lean
+          repository: ghwfxlab/lintsmith
           ref: ${{ inputs.tool_ref }}
           path: .lean-tool
           persist-credentials: false
@@ -84,7 +84,7 @@ jobs:
             args+=(--base "HEAD~1")
           fi
           set +e
-          uv run --project .lean-tool --no-dev superlint-lean drift "${args[@]}" --report drift.md
+          uv run --project .lean-tool --no-dev lintsmith drift "${args[@]}" --report drift.md
           rc=$?
           cat drift.md >> "$GITHUB_STEP_SUMMARY"
           exit $rc

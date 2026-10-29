@@ -1,4 +1,4 @@
-"""Tests for superlint_lean.cli."""
+"""Tests for lintsmith.cli."""
 
 from __future__ import annotations
 
@@ -7,10 +7,10 @@ import sys
 
 import pytest
 
-from superlint_lean import __version__, cli
+from lintsmith import __version__, cli
 
 TEST_UNKNOWN_COMMAND = "frobnicate"
-TEST_USAGE_HEADER = "usage: superlint-lean"
+TEST_USAGE_HEADER = "usage: lintsmith"
 
 
 class TestMain:
@@ -48,7 +48,7 @@ class TestMain:
         code = cli.main(["--version"])
 
         assert code == 0
-        assert capsys.readouterr().out.strip() == f"superlint-lean {__version__}"
+        assert capsys.readouterr().out.strip() == f"lintsmith {__version__}"
 
     def test_main_should_return_two_when_the_command_is_unknown(self, capsys: pytest.CaptureFixture[str]) -> None:
         code = cli.main([TEST_UNKNOWN_COMMAND])
@@ -66,8 +66,8 @@ class TestMain:
 class TestModuleEntryPoint:
     def test_module_entry_point_should_print_the_version_when_run_with_python_dash_m(self) -> None:
         result = subprocess.run(
-            [sys.executable, "-m", "superlint_lean", "--version"], capture_output=True, text=True, check=False
+            [sys.executable, "-m", "lintsmith", "--version"], capture_output=True, text=True, check=False
         )
 
         assert result.returncode == 0
-        assert result.stdout.strip() == f"superlint-lean {__version__}"
+        assert result.stdout.strip() == f"lintsmith {__version__}"

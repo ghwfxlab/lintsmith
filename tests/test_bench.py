@@ -1,4 +1,4 @@
-"""Tests for superlint_lean.bench."""
+"""Tests for lintsmith.bench."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 
-from superlint_lean import bench, cli
+from lintsmith import bench, cli
 
 TEST_IMAGE = "ghcr.io/o/r/lean:v1"
 TEST_VARIANT = "p/lean-gzip"
@@ -258,7 +258,7 @@ class TestMain:
         code = bench.main([TEST_IMAGE, "3", "only-a-variant"])
 
         assert code == 2
-        assert "usage: superlint-lean bench" in capsys.readouterr().out
+        assert "usage: lintsmith bench" in capsys.readouterr().out
 
     def test_cli_should_list_bench_when_usage_is_printed(self, capsys: pytest.CaptureFixture[str]) -> None:
         cli.main([])

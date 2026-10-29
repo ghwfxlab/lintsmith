@@ -2,7 +2,7 @@
 
 ## Purpose
 
-`superlint-lean` is a Python CLI that generates lean, pinned Super-Linter images
+`lintsmith` is a Python CLI that generates lean, pinned Super-Linter images
 from `VALIDATE_*` flags, blocks pull requests that outgrow the image, and keeps
 its linter mapping in step with upstream Super-Linter releases.
 
@@ -30,13 +30,13 @@ Agents should read and follow these standards for all contributions.
 
 ## Repository layout
 
-- `src/superlint_lean/cli.py` - entry point that dispatches the sub-commands
-- `src/superlint_lean/generate.py` - flags -> Dockerfile, checks.sh, plan.json
-- `src/superlint_lean/drift.py` - PR drift check (changed files vs enabled linters)
-- `src/superlint_lean/config.py` - reads env files and workflows; upstream `VALIDATE_*` semantics
-- `src/superlint_lean/mapping_sync.py` - adds draft mapping entries for new upstream linters
-- `src/superlint_lean/release_notes.py` - before/after benchmark release notes
-- `src/superlint_lean/data/` - `linters.json`, `filetypes.json`, `prune-node-modules.js`
+- `src/lintsmith/cli.py` - entry point that dispatches the sub-commands
+- `src/lintsmith/generate.py` - flags -> Dockerfile, checks.sh, plan.json
+- `src/lintsmith/drift.py` - PR drift check (changed files vs enabled linters)
+- `src/lintsmith/config.py` - reads env files and workflows; upstream `VALIDATE_*` semantics
+- `src/lintsmith/mapping_sync.py` - adds draft mapping entries for new upstream linters
+- `src/lintsmith/release_notes.py` - before/after benchmark release notes
+- `src/lintsmith/data/` - `linters.json`, `filetypes.json`, `prune-node-modules.js`
 - `base/`, `toolchains/`, `examples/` - env files (the opinionated base and example combinations)
 - `scripts/` - benchmark shell scripts used by the workflows
 - `tests/` - module-aligned pytest suite
@@ -84,7 +84,7 @@ make lang
 
 - Nothing that follows upstream may run unless upstream has a newer release (see `.github/workflows/upstream-sync.yaml`).
 - Everything stays configurable: the base and toolchains are examples, not the supported set.
-- Keep the mapping complete: `superlint-lean sync-mapping` must report no missing flags for the pinned upstream version.
+- Keep the mapping complete: `lintsmith sync-mapping` must report no missing flags for the pinned upstream version.
 
 ## Behavior invariants
 

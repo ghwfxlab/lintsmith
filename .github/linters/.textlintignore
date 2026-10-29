@@ -3,4 +3,4 @@
 node_modules/**
 dist/**
 .agents/**
-src/superlint_lean/data/**
+src/lintsmith/data/**

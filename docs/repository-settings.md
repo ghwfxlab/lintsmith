@@ -2,11 +2,11 @@
 
 The settings below limit how people and automation can interact with the
 repository. They mirror the ghwm repository and are not stored in Git, so
-`superlint-lean repository-settings` applies them with the `gh` CLI:
+`lintsmith repository-settings` applies them with the `gh` CLI:
 
 ```sh
-superlint-lean repository-settings OWNER/REPO            # print what would be sent
-superlint-lean repository-settings OWNER/REPO --apply    # apply (needs admin rights)
+lintsmith repository-settings OWNER/REPO            # print what would be sent
+lintsmith repository-settings OWNER/REPO --apply    # apply (needs admin rights)
 ```
 
 ## Merging

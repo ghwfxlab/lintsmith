@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-We actively support and patch the latest release of `superlint-lean`.
+We actively support and patch the latest release of `lintsmith`.
 
 | Version | Supported          |
 | ------- | ------------------ |

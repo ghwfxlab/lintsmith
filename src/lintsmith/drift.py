@@ -1,8 +1,8 @@
 """Fail a pull request that adds files the repository's lean image does not lint.
 
 Usage:
-    superlint-lean drift --workflow .github/workflows/linter.yml --base origin/main
-    superlint-lean drift --env super-linter.env --files-from changed.txt
+    lintsmith drift --workflow .github/workflows/linter.yml --base origin/main
+    lintsmith drift --env super-linter.env --files-from changed.txt
 
 The configuration comes from a workflow (--workflow, the env of the
 super-linter step) and/or env files (--env). The changed files come from git
@@ -25,7 +25,7 @@ from collections.abc import Collection, Iterable, Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
-from superlint_lean import config as slconfig
+from lintsmith import config as slconfig
 
 HERE = Path(__file__).resolve().parent / "data"
 

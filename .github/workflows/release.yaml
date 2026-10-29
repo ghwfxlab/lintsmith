@@ -125,9 +125,9 @@ jobs:
       - name: Describe the mapping changes
         run: |
           : > mapping.diff
-          if git show HEAD^:src/superlint_lean/data/linters.json > old-map.json 2>/dev/null; then
+          if git show HEAD^:src/lintsmith/data/linters.json > old-map.json 2>/dev/null; then
             jq -r '.linters|keys[]' old-map.json | sort > old-keys
-            jq -r '.linters|keys[]' src/superlint_lean/data/linters.json | sort > new-keys
+            jq -r '.linters|keys[]' src/lintsmith/data/linters.json | sort > new-keys
             comm -13 old-keys new-keys | sed 's/.*/- added linter `&`/' >> mapping.diff
             comm -23 old-keys new-keys | sed 's/.*/- removed linter `&`/' >> mapping.diff
           fi
@@ -137,7 +137,7 @@ jobs:
 
       - name: Write the release notes
         run: |
-          uv run superlint-lean release-notes \
+          uv run lintsmith release-notes \
             --old-tag "$OLD" --old-dir "$RUNNER_TEMP/results/results/by-tag/$OLD" \
             --new-tag "$NEW" --new-dir "$RUNNER_TEMP/results/results/by-tag/$NEW" \
             --profiles "$PROFILES" --mapping-diff mapping.diff --out notes.md

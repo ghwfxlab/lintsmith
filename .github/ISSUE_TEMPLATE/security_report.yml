@@ -1,6 +1,6 @@
 ---
 name: Security Report
-description: Report a security vulnerability in the superlint-lean CLI
+description: Report a security vulnerability in the lintsmith CLI
 title: "[Security]: "
 labels: ["security"]
 body:
@@ -44,7 +44,7 @@ body:
     id: version
     attributes:
       label: CLI version
-      description: The superlint-lean CLI version you are running.
+      description: The lintsmith CLI version you are running.
       placeholder: "e.g. v0.1.0"
 
   - type: dropdown

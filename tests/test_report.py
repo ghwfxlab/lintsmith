@@ -1,4 +1,4 @@
-"""Tests for superlint_lean.report."""
+"""Tests for lintsmith.report."""
 
 from __future__ import annotations
 
@@ -7,7 +7,7 @@ from typing import Any
 
 import pytest
 
-from superlint_lean import cli, report
+from lintsmith import cli, report
 from tests.shared import write_jsonl
 
 TEST_PROFILE = "p"
@@ -298,7 +298,7 @@ class TestMain:
         code = report.main_compare([])
 
         assert code == 2
-        assert "usage: superlint-lean compare" in capsys.readouterr().out
+        assert "usage: lintsmith compare" in capsys.readouterr().out
 
     def test_main_compare_should_return_two_when_the_file_does_not_exist(
         self, tmp_path: Path, capsys: pytest.CaptureFixture[str]

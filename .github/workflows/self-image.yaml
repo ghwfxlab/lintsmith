@@ -2,7 +2,7 @@
 name: Publish Super-Linter image
 
 # Builds this repository's own lean Super-Linter image from
-# .github/super-linter.env with superlint-lean and pushes it to GHCR. The
+# .github/super-linter.env with lintsmith and pushes it to GHCR. The
 # super-linter workflow (2.x) runs it when SUPER_LINTER_CUSTOM is true.
 #
 #   ghcr.io/<owner>/<repo>/super-linter-lean:latest                      moves with each rebuild
@@ -31,7 +31,7 @@ on: # yamllint disable-line rule:truthy
     paths:
       - .github/super-linter.env
       - upstream-version.txt
-      - src/superlint_lean/**
+      - src/lintsmith/**
       - action.yml
       - .github/workflows/self-image.yaml
   workflow_dispatch:

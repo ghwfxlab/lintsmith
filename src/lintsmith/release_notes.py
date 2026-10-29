@@ -1,12 +1,12 @@
 """Release notes comparing the benchmark results of two upstream versions.
 
 Usage:
-    superlint-lean release-notes --old-tag v9.0.0 --old-dir results/by-tag/v9.0.0 \\
+    lintsmith release-notes --old-tag v9.0.0 --old-dir results/by-tag/v9.0.0 \\
         --new-tag v9.1.0 --new-dir results/by-tag/v9.1.0 [--profiles ghwm,python] \\
         [--mapping-diff mapping.diff] [--out notes.md]
 
 Each directory holds the bench-<profile>.jsonl files written by
-`superlint-lean bench` (and optionally build-<profile>.jsonl). For every profile
+`lintsmith bench` (and optionally build-<profile>.jsonl). For every profile
 present in both, the notes show the median cold pull time and the image size
 before and after, for the upstream image and for the lean image. Pull times
 depend on the runner and the network at the time, so a change smaller than the

@@ -1,7 +1,7 @@
 """Measure the pull time and container start time of an image.
 
 Usage:
-    superlint-lean bench IMAGE [RUNS] VARIANT RUNNER [--mode cold|warm] [--out FILE] [--split]
+    lintsmith bench IMAGE [RUNS] VARIANT RUNNER [--mode cold|warm] [--out FILE] [--split]
 
     IMAGE    the image to pull
     RUNS     how many runs (default 5)
@@ -157,7 +157,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     else:
         runs, rest = 5, positional
     if len(rest) != 2:
-        print("::error::usage: superlint-lean bench IMAGE [RUNS] VARIANT RUNNER")
+        print("::error::usage: lintsmith bench IMAGE [RUNS] VARIANT RUNNER")
         return 2
     variant, runner = rest
     try:

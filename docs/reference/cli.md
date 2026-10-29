@@ -1,11 +1,11 @@
 # CLI Reference
 
 ```text
-superlint-lean <command> [options]
-superlint-lean --version
+lintsmith <command> [options]
+lintsmith --version
 ```
 
-Run `superlint-lean <command> --help` for the full option list of a command.
+Run `lintsmith <command> --help` for the full option list of a command.
 
 ## `generate`
 
@@ -73,7 +73,7 @@ Write release notes comparing the benchmarks of two upstream versions.
 Time `docker pull` and the container start of an image. Used by the benchmark workflow.
 
 ```text
-superlint-lean bench IMAGE [RUNS] VARIANT RUNNER [--mode cold|warm] [--out FILE] [--split]
+lintsmith bench IMAGE [RUNS] VARIANT RUNNER [--mode cold|warm] [--out FILE] [--split]
 ```
 
 | Option | Description |
@@ -94,7 +94,7 @@ Exit codes: `0` done, `1` a Docker call failed, `2` a bad argument.
 Markdown tables from benchmark results: lean against the upstream baseline, per profile.
 
 ```text
-superlint-lean compare FILE.jsonl...
+lintsmith compare FILE.jsonl...
 ```
 
 Reads the `bench-*.jsonl` and `build-*.jsonl` files written by the benchmark workflow (one run per line, `variant`
@@ -109,7 +109,7 @@ Exit codes: `0` printed, `2` no file given or a file could not be read.
 One row per runner, mode and variant, with the median and the range of the runs.
 
 ```text
-superlint-lean summarize FILE.jsonl...
+lintsmith summarize FILE.jsonl...
 ```
 
 Same input and exit codes as `compare`. Rows without a runner (the build timings) print `null` and come first.
@@ -119,7 +119,7 @@ Same input and exit codes as `compare`. Rows without a runner (the build timings
 Print or apply the repository settings in [repository-settings.md](../repository-settings.md). Maintainer tooling.
 
 ```text
-superlint-lean repository-settings OWNER/REPO [--apply]
+lintsmith repository-settings OWNER/REPO [--apply]
 ```
 
 Without `--apply` it prints the `gh api` calls it would make. With `--apply` it runs them through the `gh` CLI,
@@ -134,7 +134,7 @@ Exit codes: `0` done, `1` a call failed, `2` the repository is not `OWNER/REPO`.
 Pick the upstream Super-Linter release to sync to.
 
 ```text
-superlint-lean select-upstream --pinned-file upstream-version.txt [--force-tag TAG] [--cooldown-days N] [--repo OWNER/REPO]
+lintsmith select-upstream --pinned-file upstream-version.txt [--force-tag TAG] [--cooldown-days N] [--repo OWNER/REPO]
 ```
 
 | Option | Description |
@@ -155,7 +155,7 @@ Exit codes: `0` done, `2` a bad argument or the releases could not be read.
 Lint upstream's good and bad fixtures with a built image, one linter at a time.
 
 ```text
-superlint-lean smoke <image> <plan.json> <upstream-dir> [--mapping linters.json] [--jobs N]
+lintsmith smoke <image> <plan.json> <upstream-dir> [--mapping linters.json] [--jobs N]
 ```
 
 | Argument | Description |

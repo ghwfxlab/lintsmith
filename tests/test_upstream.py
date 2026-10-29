@@ -1,4 +1,4 @@
-"""Tests for superlint_lean.upstream."""
+"""Tests for lintsmith.upstream."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from typing import Any
 
 import pytest
 
-from superlint_lean import upstream
+from lintsmith import upstream
 from tests.shared import (
     PUBLISHED_LAST_MONTH,
     PUBLISHED_LONG_AGO,

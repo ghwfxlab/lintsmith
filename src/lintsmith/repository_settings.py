@@ -1,8 +1,8 @@
 """Apply the repository settings described in docs/repository-settings.md.
 
 Usage:
-    superlint-lean repository-settings OWNER/REPO            print what would be sent
-    superlint-lean repository-settings OWNER/REPO --apply    apply (needs the gh CLI, logged in as an administrator)
+    lintsmith repository-settings OWNER/REPO            print what would be sent
+    lintsmith repository-settings OWNER/REPO --apply    apply (needs the gh CLI, logged in as an administrator)
 
 Maintainer tooling: the settings are not stored in Git, so this keeps them reproducible.
 

@@ -1,6 +1,6 @@
-# Contributing to superlint-lean
+# Contributing to lintsmith
 
-Thank you for your interest in contributing to `superlint-lean`! This document
+Thank you for your interest in contributing to `lintsmith`! This document
 explains how to set up your environment, run the quality checks, write tests and
 submit your contribution.
 
@@ -42,8 +42,8 @@ and inclusive environment. Please report unacceptable behavior to the maintainer
 ## Development Setup
 
 ```sh
-git clone https://github.com/ghwfxlab/superlint-lean.git
-cd superlint-lean
+git clone https://github.com/ghwfxlab/lintsmith.git
+cd lintsmith
 make install            # uv sync
 make setup-precommit    # install the pre-commit hooks
 apm install             # optional: restore .agents/skills
@@ -77,9 +77,9 @@ ghwm (`ghwm.yml`, `ghwm.lock`). Do not edit the workflow files; change the versi
 ## Coding Standards
 
 - Prefer small functions and plain data over hidden state; write explicit branching.
-- Keep command-line parsing in each command's `main`; put behavior in the module that owns it ([config](src/superlint_lean/config.py), [generate](src/superlint_lean/generate.py), [drift](src/superlint_lean/drift.py), [mapping_sync](src/superlint_lean/mapping_sync.py), [release_notes](src/superlint_lean/release_notes.py)).
+- Keep command-line parsing in each command's `main`; put behavior in the module that owns it ([config](src/lintsmith/config.py), [generate](src/lintsmith/generate.py), [drift](src/lintsmith/drift.py), [mapping_sync](src/lintsmith/mapping_sync.py), [release_notes](src/lintsmith/release_notes.py)).
 - Do not run bulk renames over source files: shell and Dockerfile text lives in strings.
-- Keep the linter mapping complete: `superlint-lean sync-mapping` must report no missing flags for the pinned upstream version.
+- Keep the linter mapping complete: `lintsmith sync-mapping` must report no missing flags for the pinned upstream version.
 - Nothing that follows upstream may run unless upstream has a newer release.
 - If you change public behavior, update the [readme](README.md), [docs/reference/cli.md](docs/reference/cli.md) and, where relevant, [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
@@ -91,7 +91,7 @@ All tests live in [tests/](tests):
 
 - **Arrange / Act / Assert**: structure each test in those three parts.
 - **Naming**: `test_<feature>_should_<expected_behavior>_when_<state_under_test>`.
-- **File alignment**: test `src/superlint_lean/drift.py` in `tests/test_drift.py`, and so on.
+- **File alignment**: test `src/lintsmith/drift.py` in `tests/test_drift.py`, and so on.
 - **No network and no Docker**: use `tmp_path` and small fake upstream checkouts.
 - **Edge cases**: include failure paths (invalid values, mixed `true`/`false`, missing files, unknown flags).
 
@@ -99,7 +99,7 @@ All tests live in [tests/](tests):
 
 ## Extending the mapping
 
-`src/superlint_lean/data/linters.json` maps each `VALIDATE_*` flag to what the
+`src/lintsmith/data/linters.json` maps each `VALIDATE_*` flag to what the
 image needs from the upstream image. An entry can have:
 
 | Key | Meaning |
@@ -117,17 +117,17 @@ image needs from the upstream image. An entry can have:
 To add or fix an entry:
 
 1. Check out the upstream release in question and run
-   `superlint-lean sync-mapping --upstream <checkout> --report report.md`. With
+   `lintsmith sync-mapping --upstream <checkout> --report report.md`. With
    `--write` it adds draft entries for missing flags and lists what it could not
    place.
 2. Find the tool in upstream's `Dockerfile` (`COPY --from`, `/venvs`,
    `dependencies/package.json`) and fill in the keys above. Prefer the
    narrowest copy that works.
 3. Generate an image with the flag, build it and run its `checks.sh`; for a
-   linter with an upstream fixture, `superlint-lean smoke` also runs a good and a
+   linter with an upstream fixture, `lintsmith smoke` also runs a good and a
    bad file through the real entrypoint.
 4. Update `tests/test_mapping_sync.py` or `tests/test_generate.py` if the
-   derivation or the output changed. `superlint-lean sync-mapping` must report
+   derivation or the output changed. `lintsmith sync-mapping` must report
    no missing flags for the pinned upstream version.
 
 ## Pull Request Process
@@ -135,7 +135,7 @@ To add or fix an entry:
 External contributors fork the repository, then:
 
 ```sh
-git remote add upstream https://github.com/ghwfxlab/superlint-lean.git
+git remote add upstream https://github.com/ghwfxlab/lintsmith.git
 git checkout -b type/description
 ```
 

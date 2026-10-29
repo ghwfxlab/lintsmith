@@ -1,10 +1,10 @@
 """Turn benchmark results (``bench-*.jsonl`` and ``build-*.jsonl``) into Markdown tables.
 
 Usage:
-    superlint-lean compare   FILE.jsonl...   lean images against their upstream baseline, per profile
-    superlint-lean summarize FILE.jsonl...   every variant on its own, median of the runs
+    lintsmith compare   FILE.jsonl...   lean images against their upstream baseline, per profile
+    lintsmith summarize FILE.jsonl...   every variant on its own, median of the runs
 
-Each line is one run written by ``superlint-lean bench`` (or the build timing in
+Each line is one run written by ``lintsmith bench`` (or the build timing in
 ``profiles.yaml``). ``variant`` is ``<profile>/<kind>`` with kind ``baseline``,
 ``baseline-end``, ``lean-gzip`` or ``lean-zstd``; ``mode`` is ``cold``, ``warm`` or
 ``build`` (missing means ``cold``).
@@ -222,7 +222,7 @@ def summarize(rows: Iterable[Row]) -> list[str]:
 def _run(build: Any, argv: Sequence[str] | None, name: str) -> int:
     args = list(sys.argv[1:] if argv is None else argv)
     if not args or args[0] in ("-h", "--help"):
-        print(f"usage: superlint-lean {name} FILE.jsonl...\n\n{__doc__}")
+        print(f"usage: lintsmith {name} FILE.jsonl...\n\n{__doc__}")
         return 0 if args else 2
     try:
         rows = read_rows(args)

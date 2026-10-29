@@ -1,7 +1,7 @@
 [project]
-name = "superlint-lean"
+name = "lintsmith"
 dynamic = ["version"]
-description = "Generate lean, pinned Super-Linter images from VALIDATE_* flags."
+description = "Lean, tailored Super-Linter images: only the linters you enable, plus any extra tools you need."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.12"
@@ -37,12 +37,12 @@ default-groups = ["dev"]
 exclude-newer = "7 days"
 
 [project.scripts]
-superlint-lean = "superlint_lean.cli:main"
+lintsmith = "lintsmith.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/ghwfxlab/superlint-lean"
-Repository = "https://github.com/ghwfxlab/superlint-lean"
-Issues = "https://github.com/ghwfxlab/superlint-lean/issues"
+Homepage = "https://github.com/ghwfxlab/lintsmith"
+Repository = "https://github.com/ghwfxlab/lintsmith"
+Issues = "https://github.com/ghwfxlab/lintsmith/issues"
 
 [build-system]
 requires = ["hatch-vcs", "hatchling"]
@@ -55,14 +55,14 @@ source = "vcs"
 local_scheme = "no-local-version"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/superlint_lean"]
+packages = ["src/lintsmith"]
 
 [tool.hatch.build.targets.sdist]
 include = ["src", "tests", "README.md", "pyproject.toml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--cov=superlint_lean --cov-report=term-missing --cov-report=xml --junitxml=junit.xml"
+addopts = "--cov=lintsmith --cov-report=term-missing --cov-report=xml --junitxml=junit.xml"
 junit_family = "legacy"
 
 [tool.ruff]
@@ -76,15 +76,15 @@ ignore = ["E501"]
 
 [tool.ruff.lint.per-file-ignores]
 # drift shells out to git with a fixed argument list
-"src/superlint_lean/drift.py" = ["S603", "S607"]
+"src/lintsmith/drift.py" = ["S603", "S607"]
 # smoke runs git and docker with fixed argument lists
-"src/superlint_lean/smoke.py" = ["S603", "S607"]
+"src/lintsmith/smoke.py" = ["S603", "S607"]
 # bench runs docker and crane with fixed argument lists
-"src/superlint_lean/bench.py" = ["S603", "S607"]
+"src/lintsmith/bench.py" = ["S603", "S607"]
 # upstream runs gh with a fixed argument list
-"src/superlint_lean/upstream.py" = ["S603", "S607"]
+"src/lintsmith/upstream.py" = ["S603", "S607"]
 # repository_settings runs gh with a fixed argument list
-"src/superlint_lean/repository_settings.py" = ["S603", "S607"]
+"src/lintsmith/repository_settings.py" = ["S603", "S607"]
 "tests/*" = ["S101", "S105", "S106", "S108", "S603"]
 
 [tool.mypy]

@@ -1,8 +1,11 @@
-# superlint-lean
+# lintsmith
 
 Generate lean, pinned [Super-Linter](https://github.com/super-linter/super-linter)
 images that contain only the linters a repository uses, to cut the cold
 pull-and-unpack time in CI.
+
+Formerly `superlint-lean`. The old PyPI package and repository URL keep working, but
+new releases are published as `lintsmith`.
 
 Status: working, early. On GitHub-hosted runners a lean image pulls 5x to 8x
 faster than upstream `slim`:
@@ -34,33 +37,33 @@ caveats are in [docs/benchmarks](docs/benchmarks/README.md).
 The CLI is a Python package, managed with [uv](https://docs.astral.sh/uv/):
 
 ```sh
-uv tool install superlint-lean    # or: pipx install superlint-lean
-uvx superlint-lean --help         # run without installing
+uv tool install lintsmith    # or: pipx install lintsmith
+uvx lintsmith --help         # run without installing
 ```
 
 The latest unreleased code is available with
-`uvx --from git+https://github.com/ghwfxlab/superlint-lean superlint-lean --help`.
+`uvx --from git+https://github.com/ghwfxlab/lintsmith lintsmith --help`.
 
 Commands:
 
 | Command | Purpose |
 | --- | --- |
-| `superlint-lean generate` | `VALIDATE_*` flags (env files or a workflow) -> Dockerfile, tool self-checks and plan |
-| `superlint-lean drift` | PR drift check: fails when changed files are not covered by the enabled linters |
-| `superlint-lean sync-mapping` | Compare the linter mapping with an upstream checkout and add draft entries |
-| `superlint-lean release-notes` | Release notes with before/after benchmarks of two upstream versions |
-| `superlint-lean compare`, `summarize` | Markdown tables from benchmark results: lean against baseline, and every variant on its own |
-| `superlint-lean repository-settings` | Print or apply the repository settings in `docs/repository-settings.md` (maintainers) |
-| `superlint-lean bench` | Time cold or warm pulls and container start of an image (the benchmark workflow) |
-| `superlint-lean select-upstream` | Pick the upstream release to sync to, honouring a cooldown |
-| `superlint-lean smoke` | Lint upstream's good and bad fixtures with a built image, one linter at a time |
+| `lintsmith generate` | `VALIDATE_*` flags (env files or a workflow) -> Dockerfile, tool self-checks and plan |
+| `lintsmith drift` | PR drift check: fails when changed files are not covered by the enabled linters |
+| `lintsmith sync-mapping` | Compare the linter mapping with an upstream checkout and add draft entries |
+| `lintsmith release-notes` | Release notes with before/after benchmarks of two upstream versions |
+| `lintsmith compare`, `summarize` | Markdown tables from benchmark results: lean against baseline, and every variant on its own |
+| `lintsmith repository-settings` | Print or apply the repository settings in `docs/repository-settings.md` (maintainers) |
+| `lintsmith bench` | Time cold or warm pulls and container start of an image (the benchmark workflow) |
+| `lintsmith select-upstream` | Pick the upstream release to sync to, honouring a cooldown |
+| `lintsmith smoke` | Lint upstream's good and bad fixtures with a built image, one linter at a time |
 
 ## Layout
 
 | Path | Purpose |
 | --- | --- |
-| `src/superlint_lean/` | The package: `cli.py`, `generate.py`, `drift.py`, `config.py` (reads workflows and env files with upstream's `VALIDATE_*` semantics), `mapping_sync.py`, `release_notes.py` |
-| `src/superlint_lean/data/` | `linters.json` (flag -> upstream paths, venvs, npm and apk packages), `filetypes.json` (file type rules transcribed from upstream), `prune-node-modules.js` |
+| `src/lintsmith/` | The package: `cli.py`, `generate.py`, `drift.py`, `config.py` (reads workflows and env files with upstream's `VALIDATE_*` semantics), `mapping_sync.py`, `release_notes.py` |
+| `src/lintsmith/data/` | `linters.json` (flag -> upstream paths, venvs, npm and apk packages), `filetypes.json` (file type rules transcribed from upstream), `prune-node-modules.js` |
 | `tests/` | pytest suite (Arrange/Act/Assert), using the ghwm workflow as a fixture |
 | `base/opinionated.env` | The opinionated base: the checks almost every repository wants (EditorConfig, env, actionlint, zizmor, gitleaks, JSON, Markdown, natural language, YAML, shell, hadolint) |
 | `toolchains/` | Example toolchains on top of the base: python, Java, dotnet, rust, c-cpp, frontend-{vanilla,react,vue,angular,svelte}, base-only |
@@ -124,7 +127,7 @@ jobs:
   drift:
     permissions:
       contents: read
-    uses: ghwfxlab/superlint-lean/.github/workflows/drift-blocker.yml@main
+    uses: ghwfxlab/lintsmith/.github/workflows/drift-blocker.yml@main
     with:
       workflow: .github/workflows/super-linter.yaml   # the workflow with the super-linter step
       allow_ext: "txt lock"                    # file types you deliberately do not lint
@@ -134,14 +137,14 @@ The configuration is read from the `env:` of the Super-Linter step, with the
 upstream rules: if any `VALIDATE_X` is `true`, only those linters run; if only
 `false` values are set, everything else runs. `FILTER_REGEX_INCLUDE` and
 `FILTER_REGEX_EXCLUDE` are respected. The same discovery works in the compiler:
-`superlint-lean generate --workflow .github/workflows/super-linter.yaml ...`. Content-based
+`lintsmith generate --workflow .github/workflows/super-linter.yaml ...`. Content-based
 detections (OpenAPI, CloudFormation, Kubernetes, ARM, AWS States, Ansible) are
 not modelled, so a YAML file of those kinds is only checked as plain YAML.
 
 ## Try it locally
 
 ```sh
-superlint-lean generate --env base/opinionated.env --env toolchains/python.env \
+lintsmith generate --env base/opinionated.env --env toolchains/python.env \
   --upstream-tag v9.0.0 --upstream-dockerfile <upstream Dockerfile at that tag> --out build/python
 docker buildx build build/python -t lean-python
 docker run --rm -v "$PWD/build/python/checks.sh:/checks.sh:ro" --entrypoint bash lean-python /checks.sh
@@ -153,7 +156,7 @@ so the Svelte profile covers the JS, TS, CSS and HTML around it.
 
 ## Limitations
 
-- Only linters in the mapping (`src/superlint_lean/data/linters.json`, 95 flags
+- Only linters in the mapping (`src/lintsmith/data/linters.json`, 95 flags
   for upstream v9.0.0) can be selected. An unknown flag stops `generate` with a
   message, and new upstream linters start as drafts that need a review (see
   [CONTRIBUTING.md](CONTRIBUTING.md#extending-the-mapping)).

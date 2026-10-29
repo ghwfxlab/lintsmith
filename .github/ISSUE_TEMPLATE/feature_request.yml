@@ -1,6 +1,6 @@
 ---
 name: Feature Request
-description: Suggest a new feature or improvement for the superlint-lean CLI
+description: Suggest a new feature or improvement for the lintsmith CLI
 title: "[Feature]: "
 labels: ["enhancement"]
 body:
